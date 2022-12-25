@@ -2,25 +2,25 @@ const socket = io('http://localhost:3000');
  
 $('#divCall').hide();
 
-// let customConfig;
+let customConfig;
 
-// $.ajax({
-//     url: "https://service.xirsys.com/ice",
-//     data: {
-//       ident: "truonganhtuan",
-//       secret: "1033233c-8390-11ed-8dbc-0242ac130003",
-//       domain: "file:///D:/RTC/index.html",
-//       application: "default",
-//       room: "default",
-//       secure: 1
-//     },
-//     success: function (data, status) {
-//       // data.d is where the iceServers object lives
-//       customConfig = data.d;
-//       console.log(customConfig);
-//     },
-//     async: false
-//   });
+$.ajax({
+    url: "https://service.xirsys.com/ice",
+    data: {
+      ident: "truonganhtuan",
+      secret: "1033233c-8390-11ed-8dbc-0242ac130003",
+      domain: "RTC",
+      application: "default",
+      room: "default",
+      secure: 1
+    },
+    success: function (data, status) {
+      // data.d is where the iceServers object lives
+      customConfig = data.d;
+      console.log(customConfig);
+    },
+    async: false
+  });
 
 
 
@@ -61,8 +61,14 @@ function playStream(idVideoTag, stream){
 
 // openStream()
 // .then(stream => playStream('vdLocalStream',stream));
-const peer = new Peer({key: 'tkv5g2acaree9udi' });
-
+// const peer = new Peer({key: 'tkv5g2acaree9udi' });
+const peer = new Peer({ 
+    key: 'peerjs', 
+    host: 'mypeer3005.herokuapp.com', 
+    secure: true, 
+    port: 443, 
+    config: customConfig 
+});
 peer.on('open',id => {
     $('#my-peer').append(id);
     $('#btnSignUp').click(() =>{
